@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  redis:
+    image: "redis:7"
+    ports:
+      - "6379:6379"
+    restart: always
+
+  mongodb:
+    image: "mongo:6"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+    ports:
+      - "27017:27017"
+    restart: always
