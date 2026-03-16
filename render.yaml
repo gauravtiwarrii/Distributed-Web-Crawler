@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: crawler-dashboard
+    env: docker
+    plan: free
+    region: ohio
+    branch: main
+    envVars:
+      - key: REDIS_URI
+        fromService:
+          type: redis
+          name: crawler-queue
+          property: connectionString
+      - key: MONGO_URI
+        sync: false # User must provide this in the Render dashboard
+      - key: MAX_WORKER_THREADS
+        value: 5
+
+  - type: redis
+    name: crawler-queue
+    plan: free
+    region: ohio
+    ipAllowList: [] # Private network only
