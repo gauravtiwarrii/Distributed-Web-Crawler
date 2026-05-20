@@ -18,5 +18,12 @@ COPY . .
 # Expose Streamlit port
 EXPOSE 8501
 
-# Command to run Streamlit
-CMD ["streamlit", "run", "dashboard/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+# Health check for Render
+HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health || exit 1
+
+# Command to run Streamlit (disable CORS/XSRF for cloud deployment)
+CMD ["streamlit", "run", "dashboard/app.py", \
+     "--server.port=8501", \
+     "--server.address=0.0.0.0", \
+     "--server.headless=true", \
+     "--browser.gatherUsageStats=false"]
